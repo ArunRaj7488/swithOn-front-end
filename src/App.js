@@ -6,7 +6,9 @@ import First from "../src/components/First"
 class App extends Component {
   render() {
     return (
-    	<First/>
+      <div style={{display:"flex", height:"100vh",  backgroundImage: "linear-gradient(to right, #C04848, #480048)"}}>
+        <First/>
+      </div>
     )
   }
 }

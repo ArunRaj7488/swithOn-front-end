@@ -18,7 +18,6 @@ class FirstPage extends Component {
     				this.setState({
     					data: res.data
     				});
-   				// console.log(this.state.data);
   			 })
   			    .catch((error)=> {
     
@@ -29,8 +28,15 @@ class FirstPage extends Component {
     const currentTime = new Date(Date.now());
     myTime = new Date(myTime)
     const diff = currentTime - myTime;
-    // this.setState({diff})
-    return Math.floor(diff);
+    let time = ``;
+    if(diff>=3600000){
+      time = `${Math.floor(diff/1000/60/60)} hrs` 
+    }else if(diff<3600000 && diff>=60000){
+      time = `${Math.floor(diff/1000/60)} mins`
+    }else{
+      time = `${Math.floor(diff/1000)} secs`
+    }
+    return time;
 
    }
 	 handlePost (){
@@ -44,20 +50,12 @@ class FirstPage extends Component {
     render() { 
         return (  
             <div className="container">
+              <h1 style={{color:"#fff"}}>Time Card</h1>
               <Button className="m-2" variant="primary" onClick={this.handlePost}>Add a new card</Button>
             	<Button className="m-2" variant="success" onClick={()=>location.reload()}>Refresh</Button>
         	     {this.state.data.map((item, index)=>{
-                const timePassed = this.handleTimeChange(item.isoDate)
-                let time = ``;
-                if(timePassed>=3600000){
-                  time = `${Math.floor(timePassed/1000/60/60)} hrs` 
-                  //`${Math.floor(timePassed/60)} Hrs` :`${timePassed} Mins`; 
-                }else if(timePassed<3600000 && timePassed>=60000){
-                  time = `${Math.floor(timePassed/1000/60)} mins`
-                }else{
-                  time = `${Math.floor(timePassed/1000)} secs`
-                }
-                return (<Card key={ index } className="m-2">
+                const time = this.handleTimeChange(item.isoDate)
+                return (<Card style={{boxShadow: "1px 1px 10px 8px #ddd"}} key={ index } className="m-4">
                             <Card.Body> <b>value</b>: {item.value} , <b>elapsed time:</b> {time}  </Card.Body>
                         </Card>)
                })}  	
